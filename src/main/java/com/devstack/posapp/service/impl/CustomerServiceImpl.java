@@ -8,6 +8,8 @@ import com.devstack.posapp.entity.Customer;
 import com.devstack.posapp.repo.CustomerRepo;
 import com.devstack.posapp.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -104,7 +106,8 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public CustomerPaginatedDto findAllCustomer(int page, int size, String searchText) {
-        List<Customer> customers = customerRepo.findAll();
+        /*Page<Customer> customers = customerRepo.findAll(PageRequest.of(page, size));*/
+        Page<Customer> customers = customerRepo.searchAllByAddressOrName(searchText,PageRequest.of(page, size));
         List<ResponseCustomerDto> list = new ArrayList<>();
         for (Customer customer : customers
         ) {
@@ -116,6 +119,6 @@ public class CustomerServiceImpl implements CustomerService {
                     customer.isActiveState()
             ));
         }
-        return new CustomerPaginatedDto(customerRepo.count(), list);
+        return new CustomerPaginatedDto(customerRepo.countDataWithSearchText(searchText), list);
     }
 }
