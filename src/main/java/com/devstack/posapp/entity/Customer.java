@@ -15,6 +15,7 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column(unique = true ,nullable = true)
     private long publicId;
     private String name;
     private String address;

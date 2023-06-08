@@ -38,7 +38,7 @@ public class Database {
         );
     }*/
 
-    public static ResponseCustomerDto findCustomer(long id) throws ClassNotFoundException {
+    /*public static ResponseCustomerDto findCustomer(long id) throws ClassNotFoundException {
         Optional<CustomerDto> selectedCustomer =
                 customerTable.stream().filter(e -> e.getPublicId() == id).findFirst();
 
@@ -52,7 +52,7 @@ public class Database {
             );
         }
         throw new ClassNotFoundException();
-    }
+    }*/
 
     public static ResponseCustomerDto updateCustomer(long id, RequestCustomerDto dto) throws ClassNotFoundException {
         Optional<CustomerDto> selectedCustomer = customerTable.stream().filter(e -> e.getPublicId() == id).findFirst();
@@ -84,17 +84,17 @@ public class Database {
         throw new ClassNotFoundException();
     }
 
-    public static CustomerPaginatedDto findAllCustomer(int page,int size,String searchText){
+    public static CustomerPaginatedDto findAllCustomer(int page, int size, String searchText) {
         List<ResponseCustomerDto> list = new ArrayList<>();
-        for (CustomerDto d: customerTable
-             ) {
-           list.add(new ResponseCustomerDto(
-                   d.getPublicId(),
-                   d.getName(),
-                   d.getAddress(),
-                   d.getSalary(),
-                   d.isActiveState()
-           )) ;
+        for (CustomerDto d : customerTable
+        ) {
+            list.add(new ResponseCustomerDto(
+                    d.getPublicId(),
+                    d.getName(),
+                    d.getAddress(),
+                    d.getSalary(),
+                    d.isActiveState()
+            ));
         }
         return new CustomerPaginatedDto(customerTable.size(), list);
     }

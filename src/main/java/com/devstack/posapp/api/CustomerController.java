@@ -54,7 +54,7 @@ public class CustomerController {
     @GetMapping("/{id}")/*("/find") *///for get,find - GET
     public ResponseEntity<StandardResponse> findCustomer(@PathVariable long id) throws ClassNotFoundException {
         return new ResponseEntity<>(
-                new StandardResponse(200, "Customer Detail", Database.findCustomer(id))
+                new StandardResponse(200, "Customer Detail", customerService.findCustomer(id))
                 , HttpStatus.OK
         );
     }
