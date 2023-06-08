@@ -35,7 +35,7 @@ public class CustomerController {
 
     @PutMapping(params = "id")/*("/update")*/ // for update - PUT
     public ResponseEntity<StandardResponse> updateCustomer(@RequestParam long id, @RequestBody RequestCustomerDto customerDto) throws ClassNotFoundException {
-        var savedData = Database.updateCustomer(id, customerDto);
+        var savedData = customerService.updateCustomer(id, customerDto);
         return new ResponseEntity<>(
                 new StandardResponse(201, "Customer Updated", savedData),
                 HttpStatus.CREATED
