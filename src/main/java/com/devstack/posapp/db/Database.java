@@ -14,7 +14,7 @@ import java.util.Random;
 public class Database {
     public static ArrayList<CustomerDto> customerTable = new ArrayList<>();
 
-    public static ResponseCustomerDto createCustomer(RequestCustomerDto dto) {
+ /*   public static ResponseCustomerDto createCustomer(RequestCustomerDto dto) {
         CustomerDto customerDto = new CustomerDto(
                 new Random().nextInt(100001),
                 new Random().nextInt(100001),
@@ -36,7 +36,7 @@ public class Database {
                 dto.getSalary(),
                 customerDto.isActiveState()
         );
-    }
+    }*/
 
     public static ResponseCustomerDto findCustomer(long id) throws ClassNotFoundException {
         Optional<CustomerDto> selectedCustomer =

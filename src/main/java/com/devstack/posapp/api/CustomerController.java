@@ -2,9 +2,10 @@ package com.devstack.posapp.api;
 
 import com.devstack.posapp.db.Database;
 import com.devstack.posapp.dto.request.RequestCustomerDto;
+import com.devstack.posapp.service.CustomerService;
 import com.devstack.posapp.util.StandardResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,9 +17,16 @@ import org.springframework.web.bind.annotation.*;
         }*/
 )
 public class CustomerController {
+    private final CustomerService customerService;
+
+    @Autowired
+    public CustomerController(CustomerService customerService) {
+        this.customerService = customerService;
+    }
+
     @PostMapping/*("/create")*/ //for save - POST
     public ResponseEntity<StandardResponse> createCustomer(@RequestBody RequestCustomerDto customerDto) {
-        var savedData = Database.createCustomer(customerDto);
+        var savedData = customerService.createCustomer(customerDto);
         return new ResponseEntity<>(
                 new StandardResponse(201, "Saved Customer", savedData),
                 HttpStatus.CREATED
