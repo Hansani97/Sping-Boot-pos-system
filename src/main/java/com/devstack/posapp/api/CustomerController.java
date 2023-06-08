@@ -1,6 +1,5 @@
 package com.devstack.posapp.api;
 
-import com.devstack.posapp.db.Database;
 import com.devstack.posapp.dto.request.RequestCustomerDto;
 import com.devstack.posapp.service.CustomerService;
 import com.devstack.posapp.util.StandardResponse;
@@ -26,25 +25,23 @@ public class CustomerController {
 
     @PostMapping/*("/create")*/ //for save - POST
     public ResponseEntity<StandardResponse> createCustomer(@RequestBody RequestCustomerDto customerDto) {
-        var savedData = customerService.createCustomer(customerDto);
         return new ResponseEntity<>(
-                new StandardResponse(201, "Saved Customer", savedData),
+                new StandardResponse(201, "Saved Customer", customerService.createCustomer(customerDto)),
                 HttpStatus.CREATED
         );
     }
 
     @PutMapping(params = "id")/*("/update")*/ // for update - PUT
     public ResponseEntity<StandardResponse> updateCustomer(@RequestParam long id, @RequestBody RequestCustomerDto customerDto) throws ClassNotFoundException {
-        var savedData = customerService.updateCustomer(id, customerDto);
         return new ResponseEntity<>(
-                new StandardResponse(201, "Customer Updated", savedData),
+                new StandardResponse(201, "Customer Updated", customerService.updateCustomer(id, customerDto)),
                 HttpStatus.CREATED
         );
     }
 
     @DeleteMapping("/{id}")/*("/delete")*/ //for delete DELETE
     public ResponseEntity<StandardResponse> deleteCustomer(@PathVariable long id) throws ClassNotFoundException {
-        Database.deleteCustomer(id);
+        customerService.deleteCustomer(id);
         return new ResponseEntity<>(
                 new StandardResponse(204, "Customer Deleted", null)
                 , HttpStatus.NO_CONTENT
@@ -66,7 +63,7 @@ public class CustomerController {
             @RequestParam String searchText
     ) {
         return new ResponseEntity<>(
-                new StandardResponse(200, "Customer Detail", Database.findAllCustomer(page, size, searchText))
+                new StandardResponse(200, "Customer Detail", customerService.findAllCustomer(page, size, searchText))
                 , HttpStatus.OK
         );
     }

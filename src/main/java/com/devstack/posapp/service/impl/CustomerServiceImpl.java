@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -97,10 +99,23 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public void deleteCustomer(long id) {
 
+        customerRepo.deleteByPublicId(id);
     }
 
     @Override
     public CustomerPaginatedDto findAllCustomer(int page, int size, String searchText) {
-        return null;
+        List<Customer> customers = customerRepo.findAll();
+        List<ResponseCustomerDto> list = new ArrayList<>();
+        for (Customer customer : customers
+        ) {
+            list.add(new ResponseCustomerDto(
+                    customer.getPublicId(),
+                    customer.getName(),
+                    customer.getAddress(),
+                    customer.getSalary(),
+                    customer.isActiveState()
+            ));
+        }
+        return new CustomerPaginatedDto(customerRepo.count(), list);
     }
 }

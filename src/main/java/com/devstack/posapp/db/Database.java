@@ -1,3 +1,4 @@
+/*
 package com.devstack.posapp.db;
 
 import com.devstack.posapp.dto.core.CustomerDto;
@@ -14,7 +15,7 @@ import java.util.Random;
 public class Database {
     public static ArrayList<CustomerDto> customerTable = new ArrayList<>();
 
- /*   public static ResponseCustomerDto createCustomer(RequestCustomerDto dto) {
+    public static ResponseCustomerDto createCustomer(RequestCustomerDto dto) {
         CustomerDto customerDto = new CustomerDto(
                 new Random().nextInt(100001),
                 new Random().nextInt(100001),
@@ -36,9 +37,9 @@ public class Database {
                 dto.getSalary(),
                 customerDto.isActiveState()
         );
-    }*/
+    }
 
-    /*public static ResponseCustomerDto findCustomer(long id) throws ClassNotFoundException {
+    public static ResponseCustomerDto findCustomer(long id) throws ClassNotFoundException {
         Optional<CustomerDto> selectedCustomer =
                 customerTable.stream().filter(e -> e.getPublicId() == id).findFirst();
 
@@ -52,7 +53,7 @@ public class Database {
             );
         }
         throw new ClassNotFoundException();
-    }*/
+    }
 
     public static ResponseCustomerDto updateCustomer(long id, RequestCustomerDto dto) throws ClassNotFoundException {
         Optional<CustomerDto> selectedCustomer = customerTable.stream().filter(e -> e.getPublicId() == id).findFirst();
@@ -99,3 +100,4 @@ public class Database {
         return new CustomerPaginatedDto(customerTable.size(), list);
     }
 }
+*/
