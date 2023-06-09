@@ -7,6 +7,7 @@ import com.devstack.posapp.dto.response.paginated.model.CustomerPaginatedDto;
 import com.devstack.posapp.entity.Customer;
 import com.devstack.posapp.repo.CustomerRepo;
 import com.devstack.posapp.service.CustomerService;
+import com.devstack.posapp.util.mapper.CustomerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -21,12 +22,13 @@ import java.util.Random;
 @Service
 @Transactional
 public class CustomerServiceImpl implements CustomerService {
-    
     private final CustomerRepo customerRepo;
+    private final CustomerMapper customerMapper;
 
     @Autowired
-    public CustomerServiceImpl(CustomerRepo customerRepo) {
+    public CustomerServiceImpl(CustomerRepo customerRepo, CustomerMapper customerMapper) {
         this.customerRepo = customerRepo;
+        this.customerMapper = customerMapper;
     }
 
 
@@ -44,7 +46,7 @@ public class CustomerServiceImpl implements CustomerService {
                 null,
                 null
         );
-        Customer customer = new Customer(
+        /*Customer customer = new Customer(
                 0,
                 new Random().nextInt(100001),
                 customerDto.getName(),
@@ -52,8 +54,8 @@ public class CustomerServiceImpl implements CustomerService {
                 customerDto.getSalary(),
                 customerDto.isActiveState(),
                 null
-        );
-        customerRepo.save(customer);
+        );*/
+        customerRepo.save(customerMapper.toCustomer(customerDto));
         return new ResponseCustomerDto(
                 customerDto.getPublicId(),
                 customerDto.getName(),
