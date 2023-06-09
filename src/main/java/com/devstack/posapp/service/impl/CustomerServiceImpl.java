@@ -5,6 +5,7 @@ import com.devstack.posapp.dto.request.RequestCustomerDto;
 import com.devstack.posapp.dto.response.ResponseCustomerDto;
 import com.devstack.posapp.dto.response.paginated.model.CustomerPaginatedDto;
 import com.devstack.posapp.entity.Customer;
+import com.devstack.posapp.exception.EntryNotFoundException;
 import com.devstack.posapp.repo.CustomerRepo;
 import com.devstack.posapp.service.CustomerService;
 import com.devstack.posapp.util.mapper.CustomerMapper;
@@ -66,7 +67,7 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public ResponseCustomerDto findCustomer(long id) throws ClassNotFoundException {
+    public ResponseCustomerDto findCustomer(long id){
         Optional<Customer> selectedCustomer = customerRepo.findByPublicId(id);
         if (selectedCustomer.isPresent()){
             return customerMapper.toResponseCustomerDto(selectedCustomer.get());
@@ -78,11 +79,11 @@ public class CustomerServiceImpl implements CustomerService {
                     selectedCustomer.get().isActiveState()
             );*/
         }
-        throw new ClassNotFoundException();
+        throw new EntryNotFoundException("Not Found");
     }
 
     @Override
-    public ResponseCustomerDto updateCustomer(long id, RequestCustomerDto dto) throws ClassNotFoundException {
+    public ResponseCustomerDto updateCustomer(long id, RequestCustomerDto dto){
         Optional<Customer> selectedCustomer = customerRepo.findByPublicId(id);
         if (selectedCustomer.isPresent()){
             selectedCustomer.get().setName(dto.getName());
@@ -99,7 +100,7 @@ public class CustomerServiceImpl implements CustomerService {
                     selectedCustomer.get().isActiveState()
             );*/
         }
-        throw new ClassNotFoundException();
+        throw new EntryNotFoundException("Not Found");
     }
 
     @Override

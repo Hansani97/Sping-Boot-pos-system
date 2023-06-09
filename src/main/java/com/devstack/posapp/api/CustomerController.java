@@ -32,7 +32,7 @@ public class CustomerController {
     }
 
     @PutMapping(params = "id")/*("/update")*/ // for update - PUT
-    public ResponseEntity<StandardResponse> updateCustomer(@RequestParam long id, @RequestBody RequestCustomerDto customerDto) throws ClassNotFoundException {
+    public ResponseEntity<StandardResponse> updateCustomer(@RequestParam long id, @RequestBody RequestCustomerDto customerDto) {
         return new ResponseEntity<>(
                 new StandardResponse(201, "Customer Updated", customerService.updateCustomer(id, customerDto)),
                 HttpStatus.CREATED
@@ -40,7 +40,7 @@ public class CustomerController {
     }
 
     @DeleteMapping("/{id}")/*("/delete")*/ //for delete DELETE
-    public ResponseEntity<StandardResponse> deleteCustomer(@PathVariable long id) throws ClassNotFoundException {
+    public ResponseEntity<StandardResponse> deleteCustomer(@PathVariable long id) {
         customerService.deleteCustomer(id);
         return new ResponseEntity<>(
                 new StandardResponse(204, "Customer Deleted", null)
@@ -49,7 +49,7 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}")/*("/find") *///for get,find - GET
-    public ResponseEntity<StandardResponse> findCustomer(@PathVariable long id) throws ClassNotFoundException {
+    public ResponseEntity<StandardResponse> findCustomer(@PathVariable long id) {
         return new ResponseEntity<>(
                 new StandardResponse(200, "Customer Detail", customerService.findCustomer(id))
                 , HttpStatus.OK
