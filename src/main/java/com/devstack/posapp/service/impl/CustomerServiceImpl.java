@@ -69,13 +69,14 @@ public class CustomerServiceImpl implements CustomerService {
     public ResponseCustomerDto findCustomer(long id) throws ClassNotFoundException {
         Optional<Customer> selectedCustomer = customerRepo.findByPublicId(id);
         if (selectedCustomer.isPresent()){
-            return new ResponseCustomerDto(
+            return customerMapper.toResponseCustomerDto(selectedCustomer.get());
+            /*return new ResponseCustomerDto(
                     selectedCustomer.get().getPublicId(),
                     selectedCustomer.get().getName(),
                     selectedCustomer.get().getAddress(),
                     selectedCustomer.get().getSalary(),
                     selectedCustomer.get().isActiveState()
-            );
+            );*/
         }
         throw new ClassNotFoundException();
     }
@@ -89,13 +90,14 @@ public class CustomerServiceImpl implements CustomerService {
             selectedCustomer.get().setSalary(dto.getSalary());
 
             customerRepo.save(selectedCustomer.get());
-            return new ResponseCustomerDto(
+            return customerMapper.toResponseCustomerDto(selectedCustomer.get());
+            /*return new ResponseCustomerDto(
                     selectedCustomer.get().getPublicId(),
                     selectedCustomer.get().getName(),
                     selectedCustomer.get().getAddress(),
                     selectedCustomer.get().getSalary(),
                     selectedCustomer.get().isActiveState()
-            );
+            );*/
         }
         throw new ClassNotFoundException();
     }
@@ -110,8 +112,9 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerPaginatedDto findAllCustomer(int page, int size, String searchText) {
         /*Page<Customer> customers = customerRepo.findAll(PageRequest.of(page, size));*/
         Page<Customer> customers = customerRepo.searchAllByAddressOrName(searchText,PageRequest.of(page, size));
-        List<ResponseCustomerDto> list = new ArrayList<>();
-        for (Customer customer : customers
+        List<ResponseCustomerDto> list = customerMapper.toResponseCustomerDtoList(customers);
+        long recordsCount = customerRepo.countDataWithSearchText(searchText);
+       /* for (Customer customer : customers
         ) {
             list.add(new ResponseCustomerDto(
                     customer.getPublicId(),
@@ -120,7 +123,7 @@ public class CustomerServiceImpl implements CustomerService {
                     customer.getSalary(),
                     customer.isActiveState()
             ));
-        }
-        return new CustomerPaginatedDto(customerRepo.countDataWithSearchText(searchText), list);
+        }*/
+        return new CustomerPaginatedDto(recordsCount, list);
     }
 }
